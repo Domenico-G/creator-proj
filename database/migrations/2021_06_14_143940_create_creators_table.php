@@ -15,17 +15,12 @@ class CreateCreatorsTable extends Migration
     {
         Schema::create('creators', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('state_id');
             $table->string('name');
             $table->string('subtitle');
             $table->string('description');
             $table->string("image", 2048);
             $table->boolean("visible");
             $table->timestamps();
-
-            $table->foreign('state_id')
-            ->references('id')
-            ->on("states");
         });
     }
 

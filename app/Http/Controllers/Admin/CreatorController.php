@@ -27,7 +27,8 @@ class CreatorController extends Controller
      */
     public function create()
     {
-        return view('admin.create');
+        $states = State::all();
+        return view('admin.create', compact('states'));
     }
 
     /**
@@ -38,26 +39,26 @@ class CreatorController extends Controller
      */
     public function store(Request $request)
     {
+        // Validazione dei dati
+        $this->dataValidator($request);
+
+        $request->validate([
+            'image' => 'required'
+        ]);
 
         $data = $request->all();
         $stateName = $data['state_name'];
-
-
-        $state = new State;
-        $state->state_name = $stateName;
-        $state->save();
-
-        // Recupero lo stato del creator appena creato dalla tabella
-        $idLastState = State::orderBy('id', 'DESC')->first();
 
         // Salvo la rotta per l'immaigne
         $path = $request->file('image')->store('public');
 
         $creator = new Creator;
         $creator->fill($data);
-        $creator->state_id = $idLastState->id;
         $creator->image = $path;
         $creator->save();
+
+        // Salvo lo stato del creator
+        $creator->state()->attach($stateName);
 
         return redirect()->route('guest.show', ['name' => $creator->name]);
 
@@ -84,19 +85,41 @@ class CreatorController extends Controller
      */
     public function edit(Creator $creator)
     {
-        return view('admin.edit', compact('creator'));
+        $states = State::all();
+        return view('admin.edit', compact('creator', 'states'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Creator $creator
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Creator $creator)
     {
-        //
+        // Validazione dei dati
+        $this->dataValidator($request);
+
+        $data = $request->all();
+       // dd($data);
+        $stateName = $data['state_name'];
+
+        // Salvo la rotta per l'immaigne
+        if ($request->file('image') === null) {
+            $path = $creator->image;
+        } else {
+            $path = $request->file('image')->store('public');
+        }
+
+        $creator->image = $path;
+        $creator->update($data);
+
+        // Salvo lo stato del creator
+        $creator->state()->sync($stateName);
+
+        return redirect()->route('guest.show', ['name' => $creator->name]);
+
     }
 
     /**
@@ -107,8 +130,8 @@ class CreatorController extends Controller
      */
     public function destroy(Creator $creator)
     {
+        $creator->state()->detach();
         $creator->delete();
-        $creator->state->delete();
 
         return redirect()->route('admin.index');
     }
@@ -117,7 +140,12 @@ class CreatorController extends Controller
     public function dataValidator(Request $request) {
 
         $request->validate([
-        //   inserire dati da validare
+            "name" => 'required',
+            "subtitle" => 'required',
+            "description" => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            "visible" => 'required|boolean',
+            "state_name" => 'required',
         ]);
 
     }

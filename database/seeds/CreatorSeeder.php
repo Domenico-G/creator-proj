@@ -14,12 +14,8 @@ class CreatorSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        $stateArr = ['Virale', 'In tendenza', 'Abbandonato'];
 
-        for ($i=0; $i < 7; $i++) {
-            $state = new State();
-            $state->state_name = $stateArr[rand(0, 2)];
-            $state->save();
+        for ($i=0; $i < 10; $i++) {
 
             $creator = new Creator;
             $creator->name = $faker->name();
@@ -27,7 +23,8 @@ class CreatorSeeder extends Seeder
             $creator->description = $faker->paragraph();
             $creator->image = 'https://picsum.photos/id/' . rand(200, 300) . '/400/300';
             $creator->visible = true;
-            $state->creator()->save($creator);
+            $creator->save();
+            $creator->state()->attach(rand(1,3));
         }
     }
 }

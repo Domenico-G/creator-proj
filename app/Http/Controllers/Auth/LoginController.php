@@ -30,7 +30,7 @@ class LoginController extends Controller
     public function redirectTo() {
 
         if (auth()->user()->is_admin == 1) {
-            return $this->redirectTo = route('index');
+            return $this->redirectTo = route('admin.index');
         } else {
             return $this->redirectTo = route('guest.index');
         }

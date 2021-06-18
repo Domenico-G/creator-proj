@@ -8,7 +8,7 @@
                 <h5 class="card-title">{{ $creator->name }}</h5>
                 <h6 class="card-title">{{ $creator->subtitle }}</h6>
                 <p class="card-text">{{$creator->description}}</p>
-                <p class="card-text">{{$creator->state->state_name}}.</p>
+                <p class="card-text">{{$creator->state[0]->state_name}}.</p>
                 <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>

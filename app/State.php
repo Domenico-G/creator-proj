@@ -10,6 +10,6 @@ class State extends Model
     protected $fillable = ['state_name'];
     public function creator()
     {
-        return $this->hasMany(Creator::class);
+        return $this->belongsToMany(Creator::class);
     }
 }

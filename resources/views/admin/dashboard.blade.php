@@ -31,7 +31,7 @@
                             <td>{{ $creator->name }}</td>
                             <td>{{ $creator->subtitle }}</td>
                             <td>{{ $creator->description }}</td>
-                            <td>{{ $creator->state->name }}</td>
+                            <td>{{ $creator->state[0]->state_name }}</td>
                             <td><img src="{{ $creator->image }}" width="250px" alt="Creator pic"></td>
                             <td>
                                 <a href="{{ route('guest.show', ['name' => $creator->name]) }}"><button type="button"
