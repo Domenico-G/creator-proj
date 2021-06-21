@@ -19,6 +19,17 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    {{-- Get user id --}}
+    @if (Auth::check())
+        <meta name="user-id" content="{{ Auth::user()->id }}" />
+    @endif
+
+    {{-- Get creator ID if it is set --}}
+    @if (isset($creator))
+        <meta name="creator-id" content="{{ $creator->id }}" />
+    @endif
+
 </head>
 
 <body>
@@ -66,7 +77,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
+                                                                         document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 

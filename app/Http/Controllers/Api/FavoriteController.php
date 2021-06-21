@@ -31,6 +31,5 @@ class FavoriteController extends Controller
             $user->creators()->detach($creatorId);
         }
 
-        dd('fatto');
     }
 }

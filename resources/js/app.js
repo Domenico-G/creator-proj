@@ -7,7 +7,7 @@
 import Vue from "vue";
 window.Vue = Vue;
 require("./bootstrap");
-
+import axios from "axios";
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,7 +20,15 @@ require("./bootstrap");
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component(
+    "example-component",
+    require("./components/ExampleComponent.vue").default
+);
+
+// Creator id
+// Vue.prototype.$ceratorId = document
+//     .querySelector("meta[name='cerator-id']")
+//     .getAttribute("content");
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,5 +37,33 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app',
+    el: "#app",
+    data: {},
+    mounted() {},
+    methods: {
+        addRemoveFavorites: function() {
+            // User id
+            let userId = document
+                .querySelector("meta[name='user-id']")
+                .getAttribute("content");
+
+            // Creator id
+            let creatorId = document
+                .querySelector("meta[name='creator-id']")
+                .getAttribute("content");
+
+            axios({
+                method: "post",
+                url: "http://127.0.0.1:8000/api/favorite",
+                data: {
+                    user_id: userId,
+                    creator_id: creatorId
+                }
+            });
+
+            console.log('fatto');
+
+
+        }
+    }
 });
