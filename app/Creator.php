@@ -17,4 +17,9 @@ class Creator extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function links()
+    {
+        return $this->hasMany(LinkCreator::class);
+    }
 }
