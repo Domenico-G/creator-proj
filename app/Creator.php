@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Creator extends Model
 {
 
-    protected $fillable = ['name', 'subtitle', 'description', 'visible' ];
+    protected $fillable = ['name', 'subtitle', 'description', 'visible'];
 
-    public function state() {
+    public function state()
+    {
         return $this->belongsToMany(State::class);
     }
 

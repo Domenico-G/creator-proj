@@ -74,7 +74,6 @@ class CreatorController extends Controller
     {
         $creator = Creator::select()->where('name', $name)->first();
         return view('show', compact('creator'));
-       dd('ciao');
 
     }
 
